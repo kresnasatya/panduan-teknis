@@ -1,2 +1,2 @@
-# developer-diary
-The diary for developer using bahasa.
+# developer-notes
+The notes for developer using bahasa.
