@@ -4,7 +4,7 @@ Standards conventions of commit messages:
   2. Written in the present tense.
   3. Should be brief (singkat) (50 characters or less) when using -m
 
------------------------------------------------------- GIT GLOSSARY ----------------------------------------------------------------
+------------------------------------------------------ **GIT GLOSSARY** ----------------------------------------------------------------
 
 ```git checkout HEAD filename```: Discards changes in the working directory
 
@@ -30,22 +30,24 @@ Standards conventions of commit messages:
 
 ```git log```: Shows lists of all previous commits
 
+------------------------------------------------------ **GIT WORKFLOW** ----------------------------------------------------------------
+
+  1. WORKING AREA => Make changes to: +additions, -deletions, modifications
+  2. STAGING AREA => Bring changes into the staging area
+  3. REPOSITORY => Save changes to the repository as a 'commit'
+
+------------------------------------------------------ **MERGE CASE** ----------------------------------------------------------------
+
 ```git merge branch_name```: Used to join file changes from one branch to another <br>
    Contoh:<br>
       Ada 2 branch:<br>
-      - dev <- aku ada di sini<br>
-      - master<br>
+      * dev <= aku ada di sini<br>
+      * master<br>
     Aku ingin memasukkan yang ada di branch dev ke branch master.<br>
     Langkah-langkahnya:
       1. Pastikan yang ada di branch **dev** sudah di commit. <br>
       2. Lakukan ```git checkout master``` untuk pindah ke branch **master**. <br>
       3. Lakukan ```git merge dev``` untuk menggabungkan yang ada di **dev** ke dalam **master**
-
------------------------------------------------------- GIT WORKFLOW ----------------------------------------------------------------
-
-  1. WORKING AREA => Make changes to: +additions, -deletions, modifications
-  2. STAGING AREA => Bring changes into the staging area
-  3. REPOSITORY => Save changes to the repository as a 'commit'
 
 
 
