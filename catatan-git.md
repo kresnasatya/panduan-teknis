@@ -30,6 +30,8 @@ Standards conventions of commit messages:
 
 ```git log```: Shows lists of all previous commits
 
+```git branch -d name_branch```: Delete non active branch
+
 ------------------------------------------------------ **GIT WORKFLOW** ----------------------------------------------------------------
 
   1. WORKING AREA => Make changes to: +additions, -deletions, modifications
@@ -48,6 +50,3 @@ Standards conventions of commit messages:
       1. Pastikan yang ada di branch **dev** sudah di commit. <br>
       2. Lakukan ```git checkout master``` untuk pindah ke branch **master**. <br>
       3. Lakukan ```git merge dev``` untuk menggabungkan yang ada di **dev** ke dalam **master**
-
-
-
