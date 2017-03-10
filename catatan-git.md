@@ -32,6 +32,10 @@ Standards conventions of commit messages:
 
 ```git branch -d name_branch```: Delete non active branch
 
+***DELETE BRANCH REMOTE AND LOCAL***
+```git push origin --delete <branch_name>
+   git branch -d <branch_name>```
+
 ------------------------------------------------------ **GIT WORKFLOW** ----------------------------------------------------------------
 
   1. WORKING AREA => Make changes to: +additions, -deletions, modifications
