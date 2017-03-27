@@ -1,2 +1,2 @@
-# catatan-developer
-Catatan kecil namun penting untuk menjadi seorang developer handal.
+# Catatan PenjelajahTekno
+Ini catatan yang saya buat untuk diri saya sendiri. Jika kamu mendapat manfaatnya, terima kasih.
