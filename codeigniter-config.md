@@ -10,12 +10,12 @@ $config['base_url'] = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ?
 $config['base_url'] .= "://".$_SERVER['HTTP_HOST'];
 $config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 ```
-Silahkan di <b>copy paste</b> ke dalam file `config.php` . Dengan Base URL yang dinamis, kita tidak perlu men-setting secara manual. :)
+Silahkan di **copy paste** ke dalam file `config.php` . Dengan Base URL yang dinamis, kita tidak perlu men-setting secara manual. :)
 
 ## Clean and Pretty URL
 Ketika men-download framework CodeIgniter dan menjalankannya di browser biasanya formatnya seperti berikut:<br>
 `http://namaproject/index.php/namacontroller/namamethod`.<br>
-Untuk menghilangkan `index.php` kita ubah `$config['index_page'] = 'index.php';` menjadi `$config['index_page'] = '';`. dan membuat file .htaccess di root project utama kita dengan sintaks di bawah ini (Silahkan di <b>copy paste</b>):<br>
+Untuk menghilangkan `index.php` kita ubah `$config['index_page'] = 'index.php';` menjadi `$config['index_page'] = '';`. dan membuat file .htaccess di root project utama kita dengan sintaks di bawah ini (Silahkan di **copy paste**):<br>
 
 ```
 <IfModule mod_rewrite.c>
