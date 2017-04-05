@@ -11,6 +11,8 @@ Di PHPMyadmin, kita tidak bisa mengimport .sql file lebih dari 2MB (2048kiB). Be
       `max_allowed_packet=1024M` dengan tujuan agar mempercepat proses import data SQL. <br/>
   4. Hidupkan kembali ***Apache*** dan ***MySQL***. Kita sudah bisa mengupload SQL lebih dari 2MB.
 
-***Ingat*** Ini hanya berlaku pada server local saja. Kalau server sungguhan saya belum tahu.
+***Ingat*** Ini hanya berlaku pada server local saja. Kalau server sungguhan (cPanel) saya belum tahu.
+
+***UPDATE!!!*** Di server sungguhan (cPanel), PHPMyadmin dapat menerima import file SQL kita maksimal 50MB
 
 Link terkait: [phpMyAdmin: Can't import huge database file, any suggestions?](http://stackoverflow.com/questions/5051253/phpmyadmin-cant-import-huge-database-file-any-suggestions)
