@@ -26,3 +26,6 @@ RewriteRule . /index.php [L]
 </IfModule>
 ```
 - Save perubahan .htaccess tadi dan selamat website kamu sudah bisa menggunakan HTTPS. ;)
+
+## Sumber
+[Cara Membuat WordPress Menggunakan HTTPS (SSL) Redirect dari HTTP](https://situsali.com/other/cms/2015/11/07/cara-membuat-wordpress-menggunakan-https-ssl-redirect-dari-http/)
