@@ -32,6 +32,10 @@ Standards conventions of commit messages:
 
 ```git branch -d name_branch```: Delete non active branch
 
+```git branch -m <oldname> <newname>```: Rename non active branch
+
+```git branch -m <newname>```: Rename active branch
+
 ***DELETE BRANCH REMOTE AND LOCAL***
 ```git push origin --delete <branch_name>
    git branch -d <branch_name>```
