@@ -36,6 +36,9 @@ Standards conventions of commit messages:
 
 ```git branch -m <newname>```: Rename active branch
 
+***CHANGE REMOTE GIT***
+```git remote set-url origin git://new.url.here```
+
 ***DELETE BRANCH REMOTE AND LOCAL***
 ```git push origin --delete <branch_name>
    git branch -d <branch_name>```
