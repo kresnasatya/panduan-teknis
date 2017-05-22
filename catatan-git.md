@@ -10,7 +10,7 @@ Standards conventions of commit messages:
 
 ```git reset HEAD filename```: Unstages file changes in the staging area
 
-```git reset SHA```: Can be used to a previous your commit history
+```git checkout SHA```: Used for back to previous commit or specific
 
 ```git branch```: List all a Git projects branches
 
