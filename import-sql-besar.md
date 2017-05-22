@@ -16,3 +16,8 @@ Di PHPMyadmin, kita tidak bisa mengimport .sql file lebih dari 2MB (2048kiB). Be
 ***UPDATE!!!*** Di server sungguhan (cPanel), PHPMyadmin dapat menerima import file SQL kita maksimal 50MB
 
 Link terkait: [phpMyAdmin: Can't import huge database file, any suggestions?](http://stackoverflow.com/questions/5051253/phpmyadmin-cant-import-huge-database-file-any-suggestions)
+
+## TODO
+  1. Jelaskan cara import via command prompt dan tunjukkan langkah-langkah beserta screenshotnya
+  2. Jelaskan cara import via PHPMyAdmin dan tunjukkan langkah-langkah beserta screenshotnya
+  3. Jelaskan cara import via SQLyog dan tunjukkan langkah-langkah beserta screenshotnya
