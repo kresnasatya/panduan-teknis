@@ -17,11 +17,12 @@ Langkah - langkah:
     $cfg['Servers'][$i]['user'] = 'root';
     $cfg['Servers'][$i]['password'] = '';
     $cfg['Servers'][$i]['extension'] = 'mysqli';
-    $cfg['Servers'][$i]['AllowNoPassword'] = false;
+    $cfg['Servers'][$i]['AllowNoPassword'] = true;
     $cfg['Lang'] = '';
     ```
 
-    Berikan isi dalam `$cfg['Servers'][$i]['password'] = '';` menjadi seperti ini:
+    Berikan isi dalam `$cfg['Servers'][$i]['password'] = '';` dan ubah nilai di dalam
+    `$cfg['Servers'][$i]['AllowNoPassword'] = true;` menjadi seperti ini:
     ```
     /* Authentication type and info */
     $cfg['Servers'][$i]['auth_type'] = 'config';
