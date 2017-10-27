@@ -1,1 +1,0 @@
-# Standard in Android
