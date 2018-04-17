@@ -1,0 +1,21 @@
+# Link-link penting saat setting VPS dengan Centos 7
+Tujuannya agar tidak kepenuhan bookmark di browser. :D
+
+1. [Introduction to DO DNS](https://www.digitalocean.com/community/tutorials/an-introduction-to-digitalocean-dns)
+1. [Fixed failed to set locale](https://www.cyberciti.biz/faq/failed-to-set-locale-defaulting-to-c-warning-message-on-centoslinux/)
+1. [Inital server setup](https://www.digitalocean.com/community/tutorials/initial-server-setup-with-centos-7)
+1. [Additional recommended steps](https://www.digitalocean.com/community/tutorials/additional-recommended-steps-for-new-centos-7-servers)
+1. [Setup nginx server block](https://www.digitalocean.com/community/tutorials/how-to-set-up-nginx-server-blocks-on-centos-7)
+1. [Secure nginx with let's encrypt](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-centos-7)
+1. [Fixing 403 forbidden nginx errors](https://vexxhost.com/resources/tutorials/fixing-403-forbidden-nginx-errors/)
+1. [Fixed SELinux according 403 forbidden nginx](https://github.com/northbright/Notes/blob/master/nginx/configure-selinux-to-fix-403-forbidden-error-of-nginx-on-centos.md)
+1. [Install Git](https://www.digitalocean.com/community/tutorials/how-to-install-git-on-centos-7)
+1. [Membuat SWAP](https://sekolahlinux.com/create-swap-pada-centos-7/)
+1. [Can't enable SWAP](https://unix.stackexchange.com/questions/294600/i-cant-enable-swap-space-on-centos-7)
+1. [Install new MARIA DB](https://linuxhostsupport.com/blog/how-to-upgrade-mariadb-on-centos-7/)
+1. [Install PHP 7.2](https://www.cyberciti.biz/faq/how-to-install-php-7-2-on-centos-7-rhel-7/)
+1. [Install Composer](https://www.vultr.com/docs/install-composer-on-centos-7)
+1. [Install FTP server](https://www.tecmint.com/install-ftp-server-in-centos-7/)
+1. [Secure VSFTPD](https://www.tecmint.com/secure-vsftpd-using-ssl-tls-on-centos/)
+1. [WordPress NGINX 404 errors](https://www.digitalocean.com/community/questions/wordpress-and-nginx-404-errors-all-but-home-page)
+1. [WordPress FTP Credentials](https://support.cloudways.com/how-to-resolve-wordpress-asking-for-ftp-credentials-error/)
