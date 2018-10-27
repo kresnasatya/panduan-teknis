@@ -5,7 +5,7 @@ Bagi teman-teman yang memiliki VPS, mempunyai repository Github yang berisikan w
 1. Mempunyai VPS dan saya menggunakan Ubuntu
 1. Membuat SSH key di VPS dan menaruh public key di repository yang Anda punya.
 1. Melakukan konfigurasi `sudo` tanpa password untuk reload php-fpm dan chown
-1. Memasang port custom di firewalls agar dikenali.
+1. Memasang port custom di firewall.
 
 ### Membuat SSH key di VPS dan menaruhnya di repository yang Anda punya.
 Jika Anda belum membuat SSH key di VPS dengan user yang Anda butuhkan (misalnya: ```deployer```),
@@ -39,8 +39,8 @@ Silahkan login dengan user yang memiliki akses sudo atau user root dan ketik per
 %deployer ALL = NOPASSWD: /bin/chown
 ```
 
-### Memasang port custom di firewalls agar dikenali.
-Karena kita akan menggunakan package Github Webhook dan NodeJS, pastikan Anda memasang port custom di firewalls agar mudah dikenali. Sejauh ini ada dua cara, yakni di tempat kita membeli VPS (saya membeli di Digital Ocean) atau langsung di terminal
+### Memasang port custom di firewall.
+Karena kita akan menggunakan package Github Webhook dan NodeJS, pastikan Anda memasang port custom di firewall agar firewall membuka akses custom port. Sejauh ini ada dua cara, yakni di tempat kita membeli VPS (saya membeli di Digital Ocean) atau langsung di terminal
 server kita.
 
 1. Di VPS Digital Ocean
