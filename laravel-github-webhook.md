@@ -43,7 +43,7 @@ Silahkan login dengan user yang memiliki akses sudo atau user root dan ketik per
 Karena kita akan menggunakan package Github Webhook dan NodeJS, pastikan Anda memasang port custom di firewall agar firewall membuka akses custom port. Sejauh ini ada dua cara, yakni di tempat kita membeli VPS (saya membeli di Digital Ocean) atau langsung di terminal
 server kita.
 
-1. Di VPS Digital Ocean
+1. Di droplet Digital Ocean
 ![Langkah 5](images-guide/laravel-github-webhook/langkah-5.png)
 
 ![Langkah 6](images-guide/laravel-github-webhook/langkah-6.png)
@@ -56,13 +56,17 @@ server kita.
 
 ![Langkah 10](images-guide/laravel-github-webhook/langkah-10.png)
 
-1. Terminal server
+1. Di terminal VPS
 ```bash
-# Place rule at the 4th position of the INPUT chain
-# This assumes the 4th position is before any rule
-#  potentially dropping tcp traffic over port 3420
-sudo iptables -I INPUT 4 -p tcp --dport 3420 -j ACCEPT
+# nomor 3420 hanyalah contoh, Anda bisa menggantinya sesuai kebutuhan
+sudo ufw allow 3420/tcp
+# Melakukan pengecekan bila port 3420 masuk dalam daftar
+sudo ufw status verbose
 ```
+
+Catatan: Setelah itu, silahkan logout dari server dan login ke server. Saya melihat lebih manjur memasangnya di terminal VPS,
+tetapi alangkah bagusnya pasang di dua tempat.
+
 ## Mulai tahap 1
 1. Membuat direktori untuk deploy hook. Saya membuat folder bernama **laravel-basic-deploy** di direktori ```/home/deployer/deploy/laravel-basic-deploy```
 1. Menginstall nodejs dan npm di VPS dengan cara:
@@ -123,6 +127,7 @@ RELEASE="release_`date +%Y%m%d%H%M%s`";
 # yang ada komentar # Copy .env file
 ENV_PRODUCTION='/home/deployer/env-laravel/laravel-basic/production/.env';
 ROOT_DIR='/var/www/laravel-basic';
+SHARED_DIR='/var/www/laravel-basic/shared';
 
 # Fetch Latest Code
 [ -d $RELEASE_DIR ] || mkdir -p $RELEASE_DIR;
@@ -140,12 +145,15 @@ cd $RELEASE_DIR;
 chgrp -R www-data $RELEASE;
 chmod -R ug+rwx $RELEASE;
 
-# Copy .env file
-cp $ENV_PRODUCTION $ROOT_DIR;
+# Check if shared directory is not exist
+if [ ! -d "$SHARED_DIR" ]; then
+# Create shared directory
+mkdir $ROOT_DIR/shared;
+cd $ROOT_DIR/shared && (mkdir -p storage storage/app storage/app/public storage/framework storage/framework/cache storage/framework/sessions storage/framework/views storage/logs);
+fi
 
-# Create logs folder and set user group
-mkdir $ROOT_DIR/logs;
-sudo chown www-data:www-data $ROOT_DIR/logs;
+# Copy .env file
+cp $ENV_PRODUCTION $ROOT_DIR/shared;
 
 # Symlinks
 ln -nfs $RELEASE_DIR/$RELEASE $APP_DIR;
@@ -153,14 +161,14 @@ chgrp -h www-data $APP_DIR;
 
 ## Env File
 cd $RELEASE_DIR/$RELEASE;
-ln -nfs ../../.env .env;
+ln -nfs ../../shared/.env .env;
 chgrp -h www-data .env;
 
 ## Logs
-rm -r $RELEASE_DIR/$RELEASE/storage/logs;
-cd $RELEASE_DIR/$RELEASE/storage;
-ln -nfs ../../../logs logs;
-chgrp -h www-data logs;
+rm -r $RELEASE_DIR/$RELEASE/storage;
+cd $RELEASE_DIR/$RELEASE;
+ln -nfs ../../shared/storage storage;
+chgrp -h www-data storage;
 
 ## Update Current Site
 ln -nfs $RELEASE_DIR/$RELEASE $APP_DIR;
@@ -179,6 +187,9 @@ php artisan config:cache
 
 # Run migration
 php artisan migrate --force
+
+# Symlink storage folder with public folder
+php artisan storage:link
 ```
 1. Berikan akses execute untuk deploy.sh dengan perintah:
 ```bash
