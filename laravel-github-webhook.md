@@ -1,7 +1,13 @@
 # Cara deploy web Laravel dengan Github Webhook.
 Bagi teman-teman yang memiliki VPS, mempunyai repository Github yang berisikan web Laravel serta kebingungan cara menyebarkan aplikasi Anda (deploy) maka Anda berada di tempat yang tepat. Di tulisan ini saya akan berbagi cara konfigurasinya.
 
-## Sebelum persiapan
+## Persiapan
+1. Mempunyai VPS dan saya menggunakan Ubuntu
+1. Membuat SSH key di VPS dan menaruh public key di repository yang Anda punya.
+1. Melakukan konfigurasi `sudo` tanpa password untuk reload php-fpm untuk group www-data
+1. Memasang port custom di firewall.
+
+## Setup ACL dan Menambahkannya ke www-data
 1. Membuat user bernama **deployer** dan menambahkannya ke grup www-data ke **deployer**
 ```
 # as root
@@ -28,13 +34,7 @@ getfacl /var/www
 sudo setfacl -Rm g:www-data:rwx,d:g:www-data:rwx /var/www
 ```
 
-Sekarang user deployer (bagian dari grup www-data) dapat membaca, menulis dan mengeksekusi direktori file di root /var/www.
-
-## Persiapan
-1. Mempunyai VPS dan saya menggunakan Ubuntu
-1. Membuat SSH key di VPS dan menaruh public key di repository yang Anda punya.
-1. Melakukan konfigurasi `sudo` tanpa password untuk reload php-fpm untuk group www-data
-1. Memasang port custom di firewall.
+Sekarang user deployer (bagian dari grup www-data) dapat membaca, menulis dan mengeksekusi direktori file di root `/var/www`.
 
 ### Membuat SSH key di VPS dan menaruhnya di repository yang Anda punya.
 Jika Anda belum membuat SSH key di VPS dengan user yang Anda butuhkan (misalnya: ```deployer```),
@@ -67,7 +67,6 @@ Silahkan login dengan user yang memiliki akses sudo atau user root dan ketik per
 ### Memasang port custom di firewall.
 Karena kita akan menggunakan package Github Webhook dan NodeJS, pastikan Anda memasang port custom di firewall agar firewall membuka akses custom port. Kita bisa memasangnya langsung di terminal server kita.
 
-1. Di terminal VPS
 ```bash
 # nomor 3420 hanyalah contoh, Anda bisa menggantinya sesuai kebutuhan
 sudo ufw allow 3420/tcp
@@ -79,18 +78,17 @@ Catatan: Setelah itu, silahkan logout dari server dan login ke server.
 
 ## Mulai tahap 1
 1. Membuat direktori untuk deploy hook. Saya membuat folder bernama **laravel-basic-deploy** di direktori ```/home/deployer/deploy/laravel-basic-deploy```
-1. Menginstall nodejs dan npm di VPS dengan cara:
+2. Menginstall nodejs dan npm di VPS dengan cara:
 ```bash
-# node js
-curl -sL https://deb.nodesource.com/setup | sudo bash -
-sudo apt-get install -y nodejs
-
-# npm
-sudo apt-get install -y npm
+sudo apt update
+sudo apt install nodejs
+sudo apt install npm
+# test nodejs
+nodejs -v
 ```
-1. Init NPM project dengan cara: ```npm init``` dan masukkan data-data yang diperlukan serta pastikan "main" diisi dengan value "index.js".
-1. Download package github hook dengan perintah: ```npm install --save githubhook```
-1. Membuat file index.js dan isilah script di bawah ini
+3. Init NPM project dengan cara: ```npm init``` dan masukkan data-data yang diperlukan serta pastikan "main" diisi dengan value "index.js".
+4. Download package github hook dengan perintah: ```npm install --save githubhook```
+5. Membuat file index.js dan isilah script di bawah ini
 
 ```js
 var execFile = require('child_process').execFile;
@@ -123,7 +121,7 @@ github.on('laravel-basic:refs/heads/master', function (data) {
     });
 });
 ```
-1. Membuat file deploy.sh dan isilah script di bawah ini
+6. Membuat file deploy.sh dan isilah script di bawah ini
 
 ```bash
 #!/usr/bin/env bash
@@ -170,7 +168,7 @@ cd $RELEASE_DIR/$RELEASE;
 ln -nfs ../../shared/.env .env;
 chgrp -h www-data .env;
 
-## Logs
+## Storage
 rm -r $RELEASE_DIR/$RELEASE/storage;
 cd $RELEASE_DIR/$RELEASE;
 ln -nfs ../../shared/storage storage;
@@ -197,15 +195,15 @@ php artisan migrate --force
 # Symlink storage folder with public folder
 php artisan storage:link
 ```
-1. Berikan akses execute untuk deploy.sh dengan perintah:
+6. Berikan akses execute untuk deploy.sh dengan perintah:
 ```bash
 chmod ug+x deploy.sh
 ```
-1. Hasil akhir seperti gambar di bawah
+7. Hasil akhir seperti gambar di bawah
 
 ![Langkah 11](images-guide/laravel-github-webhook/langkah-11.png)
 
-1. Coba jalankan perintah ```bash /home/deployer/deploy/laravel-basic-deploy/deploy.sh``` dan apakah berjalan dengan lancar?
+8. Coba jalankan perintah ```bash deploy.sh``` dan apakah berjalan dengan lancar?
 Semoga berhasil.
 
 ## Mulai tahap 2
@@ -217,7 +215,7 @@ Semoga berhasil.
 
 ![Langkah 14](images-guide/laravel-github-webhook/langkah-14.png)
 
-1. Jalankan perintah ```node index.js``` di dalam direktori tadi dan coba Anda perbaharui kodingan project Anda.
+2. Jalankan perintah ```node index.js``` di dalam direktori tadi dan coba Anda perbaharui kodingan project Anda.
 Misalnya membuat routing yang terhubung dengan Controller.
 Kemudian lakukan git push. Hasilnya akan seperti gambar di bawah di terminal maupun di Github webhook.
 
@@ -231,14 +229,14 @@ di VPS Anda atau port Anda pasang salah. Mohon dicek lebih teliti lagi.*
 ## Mulai tahap 3
 Tentunya kita tidak ingin setiap kali buka terminal dan menjalankan perintah ```node index.js```.
 Salah satu cara untuk menghindari ini adalah dengan membuat service yang menjalankan perintah node tadi.
-Pada tutorial ini saya akan menggunakan systemd dari Ubuntu.
+Pada tutorial ini saya akan menggunakan `systemd` dari Ubuntu.
 
 1. Login sebagai user yang memiliki akses sudo atau user root dan masukkan perintah di bawah ini:
 ```bash
 # perintah ini bertujuan untuk mengarahkan Anda ke direktori system dan dari sinilah kita akan membuat service
 cd /lib/systemd/system
 ```
-1. Kemudian buat file bernama **laravel-basic-deploy.service** dan isinya seperti berikut:
+2. Kemudian buat file bernama **laravel-basic-deploy.service** dan isinya seperti berikut:
 ```
 [Unit]
 Description=Laravel Basic Github Webhook
@@ -252,16 +250,16 @@ ExecStart=/usr/bin/node /home/deployer/deploy/laravel-basic-deploy/index.js
 [Install]
 WantedBy=multi-user.target
 ```
-1. Simpan isi file tersebut dan jalankan perintah ```sudo systemctl enable laravel-basic-deploy.service```
-1. Jalankan lagi perintah ```sudo systemctl start laravel-basic-deploy.service```
-1. Berikutnya kita cek apakah service yang kita buat berjalan atau tidak dengan cara ```sudo systemctl status laravel-basic-deploy.service``` dan hasilnya seperti gambar di bawah
+3. Simpan isi file tersebut dan jalankan perintah ```sudo systemctl enable laravel-basic-deploy.service```
+4. Jalankan lagi perintah ```sudo systemctl start laravel-basic-deploy.service```
+5. Berikutnya kita cek apakah service yang kita buat berjalan atau tidak dengan cara ```sudo systemctl status laravel-basic-deploy.service``` dan hasilnya seperti gambar di bawah
 
 ![Langkah 17](images-guide/laravel-github-webhook/langkah-17.png)
 
-1. Coba ubah kodingan Anda dan lakukan git push apakah hasilnya sesuai atau tidak? Jika sesuai berarti service kita berjalan dengan lancar.
+6. Coba ubah kodingan Anda dan lakukan git push apakah hasilnya sesuai atau tidak? Jika sesuai berarti service kita berjalan dengan lancar.
 
 ## Tambahan
-Jika butuh setup deploy dengan nginx maka silahkan buka [link ini](https://gist.github.com/satyakresna/9d59afb47a3ff64ab1d3bb3ba353f4cd)
+Jika butuh setup deploy dengan nginx silahkan buka [link ini](https://gist.github.com/satyakresna/9d59afb47a3ff64ab1d3bb3ba353f4cd)
 
 ## Sumber referensi
 1. [Servers for hacker auto deploy with Github](https://serversforhackers.com/c/automating-deployment-from-github)
