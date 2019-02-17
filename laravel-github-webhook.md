@@ -155,10 +155,6 @@ fi
 # Copy .env file
 cp $ENV_PRODUCTION $ROOT_DIR/shared;
 
-# Symlinks
-ln -nfs $RELEASE_DIR/$RELEASE $APP_DIR;
-sudo chgrp -h www-data $APP_DIR;
-
 ## Env File
 cd $RELEASE_DIR/$RELEASE;
 ln -nfs ../../shared/.env .env;
