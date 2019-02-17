@@ -1,10 +1,39 @@
 # Cara deploy web Laravel dengan Github Webhook.
 Bagi teman-teman yang memiliki VPS, mempunyai repository Github yang berisikan web Laravel serta kebingungan cara menyebarkan aplikasi Anda (deploy) maka Anda berada di tempat yang tepat. Di tulisan ini saya akan berbagi cara konfigurasinya.
 
+## Sebelum persiapan
+1. Membuat user bernama **deployer** dan menambahkannya ke grup www-data ke **deployer**
+```
+# as root
+adduser deployer
+
+# Append (-a) a secondary group (-G) "www-data" to user "deployer"
+usermod -a -G www-data deployer
+
+# See groups assigned to user "deployer"
+groups deployer
+```
+1. Menambahkan ACL permissions di `/var/www`
+```
+# check setfacl exists
+which setfacl
+
+# If doesn't exist:
+sudo apt-get install -y acl
+
+# Inspect current ACL's
+getfacl /var/www
+
+# Set current and default ACL's for /var/www
+sudo setfacl -Rm g:www-data:rwx,d:g:www-data:rwx /var/www
+```
+
+Sekarang user deployer (bagian dari grup www-data) dapat membaca, menulis dan mengeksekusi direktori file di root /var/www.
+
 ## Persiapan
 1. Mempunyai VPS dan saya menggunakan Ubuntu
 1. Membuat SSH key di VPS dan menaruh public key di repository yang Anda punya.
-1. Melakukan konfigurasi `sudo` tanpa password untuk reload php-fpm dan chgrp
+1. Melakukan konfigurasi `sudo` tanpa password untuk reload php-fpm untuk group www-data
 1. Memasang port custom di firewall.
 
 ### Membuat SSH key di VPS dan menaruhnya di repository yang Anda punya.
@@ -27,34 +56,16 @@ Selanjutnya, copy paste hasil keluaran tersebut dan taruh di repository Github A
 
 ![Langkah 4](images-guide/laravel-github-webhook/langkah-4.png)
 
-### Melakukan konfigurasi `sudo` tanpa password untuk reload php-fpm dan chgrp
+### Melakukan konfigurasi `sudo` tanpa password untuk reload php-fpm
 Silahkan login dengan user yang memiliki akses sudo atau user root dan ketik perintah ```sudo visudo``` dan sisipkan baris ini di paling bawah.
 
 ```bash
 # For reload php 7.2
-%deployer ALL = NOPASSWD: /usr/sbin/service php7.2-fpm reload
 %www-data ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service php7.2-fpm reload
-
-# Allow user to run commands without passwd ex. chgrp
-%deployer ALL = NOPASSWD: /bin/chgrp
 ```
 
 ### Memasang port custom di firewall.
-Karena kita akan menggunakan package Github Webhook dan NodeJS, pastikan Anda memasang port custom di firewall agar firewall membuka akses custom port. Sejauh ini ada dua cara, yakni di tempat kita membeli VPS (saya membeli di Digital Ocean) atau langsung di terminal
-server kita.
-
-1. Di droplet Digital Ocean
-![Langkah 5](images-guide/laravel-github-webhook/langkah-5.png)
-
-![Langkah 6](images-guide/laravel-github-webhook/langkah-6.png)
-
-![Langkah 7](images-guide/laravel-github-webhook/langkah-7.png)
-
-![Langkah 8](images-guide/laravel-github-webhook/langkah-8.png)
-
-![Langkah 9](images-guide/laravel-github-webhook/langkah-9.png)
-
-![Langkah 10](images-guide/laravel-github-webhook/langkah-10.png)
+Karena kita akan menggunakan package Github Webhook dan NodeJS, pastikan Anda memasang port custom di firewall agar firewall membuka akses custom port. Kita bisa memasangnya langsung di terminal server kita.
 
 1. Di terminal VPS
 ```bash
@@ -64,8 +75,7 @@ sudo ufw allow 3420/tcp
 sudo ufw status verbose
 ```
 
-Catatan: Setelah itu, silahkan logout dari server dan login ke server. Saya melihat lebih manjur memasangnya di terminal VPS,
-tetapi alangkah bagusnya pasang di dua tempat.
+Catatan: Setelah itu, silahkan logout dari server dan login ke server.
 
 ## Mulai tahap 1
 1. Membuat direktori untuk deploy hook. Saya membuat folder bernama **laravel-basic-deploy** di direktori ```/home/deployer/deploy/laravel-basic-deploy```
@@ -142,7 +152,7 @@ php artisan optimize --env=production;
 
 # Update permissions
 cd $RELEASE_DIR;
-sudo chgrp -R www-data $RELEASE;
+chgrp -R www-data $RELEASE;
 chmod -R ug+rwx $RELEASE;
 
 # Check if shared directory is not exist
@@ -158,17 +168,17 @@ cp $ENV_PRODUCTION $ROOT_DIR/shared;
 ## Env File
 cd $RELEASE_DIR/$RELEASE;
 ln -nfs ../../shared/.env .env;
-sudo chgrp -h www-data .env;
+chgrp -h www-data .env;
 
 ## Logs
 rm -r $RELEASE_DIR/$RELEASE/storage;
 cd $RELEASE_DIR/$RELEASE;
 ln -nfs ../../shared/storage storage;
-sudo chgrp -h www-data storage;
+chgrp -h www-data storage;
 
 ## Update Current Site
 ln -nfs $RELEASE_DIR/$RELEASE $APP_DIR;
-sudo chgrp -h www-data $APP_DIR;
+chgrp -h www-data $APP_DIR;
 
 ## PHP
 sudo service php7.2-fpm reload;
@@ -249,6 +259,9 @@ WantedBy=multi-user.target
 ![Langkah 17](images-guide/laravel-github-webhook/langkah-17.png)
 
 1. Coba ubah kodingan Anda dan lakukan git push apakah hasilnya sesuai atau tidak? Jika sesuai berarti service kita berjalan dengan lancar.
+
+## Tambahan
+Jika butuh setup deploy dengan nginx maka silahkan buka [link ini](https://gist.github.com/satyakresna/9d59afb47a3ff64ab1d3bb3ba353f4cd)
 
 ## Sumber referensi
 1. [Servers for hacker auto deploy with Github](https://serversforhackers.com/c/automating-deployment-from-github)
