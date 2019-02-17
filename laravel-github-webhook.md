@@ -4,7 +4,7 @@ Bagi teman-teman yang memiliki VPS, mempunyai repository Github yang berisikan w
 ## Persiapan
 1. Mempunyai VPS dan saya menggunakan Ubuntu
 1. Membuat SSH key di VPS dan menaruh public key di repository yang Anda punya.
-1. Melakukan konfigurasi `sudo` tanpa password untuk reload php-fpm dan chown
+1. Melakukan konfigurasi `sudo` tanpa password untuk reload php-fpm dan chgrp
 1. Memasang port custom di firewall.
 
 ### Membuat SSH key di VPS dan menaruhnya di repository yang Anda punya.
@@ -27,7 +27,7 @@ Selanjutnya, copy paste hasil keluaran tersebut dan taruh di repository Github A
 
 ![Langkah 4](images-guide/laravel-github-webhook/langkah-4.png)
 
-### Melakukan konfigurasi `sudo` tanpa password untuk reload php-fpm dan chown
+### Melakukan konfigurasi `sudo` tanpa password untuk reload php-fpm dan chgrp
 Silahkan login dengan user yang memiliki akses sudo atau user root dan ketik perintah ```sudo visudo``` dan sisipkan baris ini di paling bawah.
 
 ```bash
@@ -35,8 +35,8 @@ Silahkan login dengan user yang memiliki akses sudo atau user root dan ketik per
 %deployer ALL = NOPASSWD: /usr/sbin/service php7.2-fpm reload
 %www-data ALL=(ALL:ALL) NOPASSWD: /usr/sbin/service php7.2-fpm reload
 
-# Allow user to run commands without passwd ex. chown
-%deployer ALL = NOPASSWD: /bin/chown
+# Allow user to run commands without passwd ex. chgrp
+%deployer ALL = NOPASSWD: /bin/chgrp
 ```
 
 ### Memasang port custom di firewall.
@@ -142,7 +142,7 @@ php artisan optimize --env=production;
 
 # Update permissions
 cd $RELEASE_DIR;
-chgrp -R www-data $RELEASE;
+sudo chgrp -R www-data $RELEASE;
 chmod -R ug+rwx $RELEASE;
 
 # Check if shared directory is not exist
@@ -157,22 +157,22 @@ cp $ENV_PRODUCTION $ROOT_DIR/shared;
 
 # Symlinks
 ln -nfs $RELEASE_DIR/$RELEASE $APP_DIR;
-chgrp -h www-data $APP_DIR;
+sudo chgrp -h www-data $APP_DIR;
 
 ## Env File
 cd $RELEASE_DIR/$RELEASE;
 ln -nfs ../../shared/.env .env;
-chgrp -h www-data .env;
+sudo chgrp -h www-data .env;
 
 ## Logs
 rm -r $RELEASE_DIR/$RELEASE/storage;
 cd $RELEASE_DIR/$RELEASE;
 ln -nfs ../../shared/storage storage;
-chgrp -h www-data storage;
+sudo chgrp -h www-data storage;
 
 ## Update Current Site
 ln -nfs $RELEASE_DIR/$RELEASE $APP_DIR;
-chgrp -h www-data $APP_DIR;
+sudo chgrp -h www-data $APP_DIR;
 
 ## PHP
 sudo service php7.2-fpm reload;
