@@ -144,7 +144,7 @@ git clone -b master $REPO $RELEASE;
 
 # Composer
 cd $RELEASE_DIR/$RELEASE;
-composer install --prefer-dist --no-scripts;
+composer install --no-ansi --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader;
 php artisan clear-compiled --env=production;
 php artisan optimize --env=production;
 
@@ -189,7 +189,7 @@ php artisan key:generate
 php artisan config:clear
 php artisan config:cache
 
-# Run migration
+# Run migration if you need
 php artisan migrate --force
 
 # Symlink storage folder with public folder
