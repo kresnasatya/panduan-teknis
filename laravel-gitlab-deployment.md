@@ -74,7 +74,7 @@ composer require lorisleiva/laravel-deployer
 3. Membuat konfigurasi Laravel Deployer untuk deployment web project Laravel kita. Anda bisa membaca artikel saya di Medium berjudul [Konfigurasi Yang Saya Gunakan di Laravel Deployer](https://medium.com/@satyakresna/konfigurasi-yang-saya-gunakan-di-laravel-deployer-c29337788c21).
 
 ## Mulai tahap 3
-1. Membuat file ```.gitlab-ci.yml``` dan isinya Anda bisa lihat di [gist Github milik saya](https://gist.github.com/satyakresna/cb54caecc405b56a7a1c734a4e05e4e2).
+1. Membuat file ```.gitlab-ci.yml``` dan isinya Anda bisa lihat di [gist Github milik saya](https://gist.github.com/satyakresna/2091cc46a6dcef094d3f9ace4ae75d45).
 
 2. Selanjutnya commit file ```.gitlab-ci.yml``` dan lakukan Git push dan hasilnya akan muncul **pipelines** seperti gambar di bawah.
 
