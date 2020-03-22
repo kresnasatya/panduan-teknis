@@ -71,7 +71,13 @@ composer require lorisleiva/laravel-deployer
 
 2. Menjalankan perintah ```php artisan deploy:init``` dan Anda akan dihadapkan dengan beberapa pertanyaan serta setelah itu hasil pertanyaan tersebut akan di simpan dalam file ```config/deploy.php```.
 
-3. Membuat konfigurasi Laravel Deployer untuk deployment web project Laravel kita. Anda bisa membaca artikel saya di Medium berjudul [Konfigurasi Yang Saya Gunakan di Laravel Deployer](https://medium.com/@satyakresna/konfigurasi-yang-saya-gunakan-di-laravel-deployer-c29337788c21).
+3. Di dalam file deploy.php, kita buat konfigurasi seperti gist di bawah.
+
+<script src="https://gist.github.com/satyakresna/1acf9a1838b01c5f529c3b8ad1a24488.js"></script>
+
+4. Di dalam file `deploy.php` tadi, kita memasukkan resep bernama `deploy_secrets.php`. Berikut konfigurasi gist nya.
+
+<script src="https://gist.github.com/satyakresna/1acf9a1838b01c5f529c3b8ad1a24488.js"></script>
 
 ## Mulai tahap 3
 1. Membuat file ```.gitlab-ci.yml``` dan isinya Anda bisa lihat di [gist Github milik saya](https://gist.github.com/satyakresna/2091cc46a6dcef094d3f9ace4ae75d45).
