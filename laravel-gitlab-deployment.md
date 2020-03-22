@@ -105,9 +105,17 @@ production:
 ```
 Di sana fungsi manual adalah menyediakan fasilitas trigger manual untuk deployment, jika Anda menghilangkannya maka akan otomatis deploy. Untuk fasilitas trigger manual, Gitlab menyediakan tombol "play" pada gambar nomor 10. Jika Anda yakin dengan commit Anda buat dan lolos tes maka silahkan tekan tombol tersebut.
 
+## Catatan
+
+Ketika menggunakan teknik ini dan menggunakan server Nginx, tidak serta merta konten berubah. Hal ini dikarenakan OPcache tidak mampu mendeteksi perubahan file PHP secara akurat. Silakan baca gunakan skrip nginx di bawah ini.
+
+<script src="https://gist.github.com/satyakresna/9d59afb47a3ff64ab1d3bb3ba353f4cd.js"></script>
+
+
 ## Sumber referensi
 1. [Test and deploy Laravel applications with GitLab CI/CD and Envoy](https://docs.gitlab.com/ee/ci/examples/laravel_with_gitlab_and_envoy/#configure-the-production-server)
 1. [Using GitLab's pipeline with Laravel](http://lorisleiva.com/using-gitlabs-pipeline-with-laravel/)
+1. [Laravel Deployer Troubleshooting](https://github.com/lorisleiva/laravel-deployer/blob/master/docs/troubleshooting.md)
 
 ## Ucapan terima kasih dan mohon maaf
 Terima kasih bagi Anda yang telah membaca tutorial ini dan jika berhasil mencobanya selamat! Mohon maaf bila tutorial ini saya buat buru-buru. Intinya saya membuat catatan kecil untuk diri saya jika saya lupa.
