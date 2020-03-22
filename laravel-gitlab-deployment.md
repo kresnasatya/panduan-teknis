@@ -73,11 +73,11 @@ composer require lorisleiva/laravel-deployer
 
 3. Di dalam file deploy.php, kita buat konfigurasi seperti gist di bawah.
 
-<script src="https://gist.github.com/satyakresna/1acf9a1838b01c5f529c3b8ad1a24488.js"></script>
+[Deploy with Laravel Deployer Setup](https://gist.github.com/satyakresna/f9b82fc7d599a34e61c37d43a47e28bf)
 
 4. Di dalam file `deploy.php` tadi, kita memasukkan resep bernama `deploy_secrets.php`. Berikut konfigurasi gist nya.
 
-<script src="https://gist.github.com/satyakresna/1acf9a1838b01c5f529c3b8ad1a24488.js"></script>
+[Deploy secrets setup for Laravel Deployer](https://gist.github.com/satyakresna/1acf9a1838b01c5f529c3b8ad1a24488)
 
 ## Mulai tahap 3
 1. Membuat file ```.gitlab-ci.yml``` dan isinya Anda bisa lihat di [gist Github milik saya](https://gist.github.com/satyakresna/2091cc46a6dcef094d3f9ace4ae75d45).
@@ -107,10 +107,9 @@ Di sana fungsi manual adalah menyediakan fasilitas trigger manual untuk deployme
 
 ## Catatan
 
-Ketika menggunakan teknik ini dan menggunakan server Nginx, tidak serta merta konten berubah. Hal ini dikarenakan OPcache tidak mampu mendeteksi perubahan file PHP secara akurat. Silakan baca gunakan skrip nginx di bawah ini.
+Ketika menggunakan teknik ini dan menggunakan server Nginx, tidak serta merta konten berubah. Hal ini dikarenakan OPcache tidak mampu mendeteksi perubahan file PHP secara akurat. Silakan buka tautan di bawah ini.
 
-<script src="https://gist.github.com/satyakresna/9d59afb47a3ff64ab1d3bb3ba353f4cd.js"></script>
-
+[Laravel (PHP 7.3) nginx conf](https://gist.github.com/satyakresna/9d59afb47a3ff64ab1d3bb3ba353f4cd)
 
 ## Sumber referensi
 1. [Test and deploy Laravel applications with GitLab CI/CD and Envoy](https://docs.gitlab.com/ee/ci/examples/laravel_with_gitlab_and_envoy/#configure-the-production-server)
