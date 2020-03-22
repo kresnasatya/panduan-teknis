@@ -98,7 +98,7 @@ production:
         - php artisan deploy yourdomain.com -vvv
     environment:
         name: production
-        url: http://yourstagingdomain.com
+        url: http://yourdomain.com
     when: manual # Perhatikan
     only:
         - master
