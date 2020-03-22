@@ -95,7 +95,7 @@ production:
     script:
         - *init_ssh
         - *change_file_permissions
-        - php artisan deploy yourdomain.com -s production -vvv
+        - php artisan deploy yourdomain.com -vvv
     environment:
         name: production
         url: http://yourstagingdomain.com
